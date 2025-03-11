@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    print("Rebuilding Home");
     return Scaffold(
       body: _currentIndex == 0 ? ColorTapsScreen() : StatisticsScreen(),
       bottomNavigationBar: BottomNavigationBar(
@@ -49,6 +50,7 @@ class ColorTapsScreen extends StatefulWidget {
 class ColorTapsScreenState extends State<ColorTapsScreen> {
   @override
   Widget build(BuildContext context) {
+    print("Rebuilding ColorTapsScreen");
     return Scaffold(
       appBar: AppBar(title: Text('Color Taps')),
       body: Column(
@@ -67,8 +69,10 @@ class ColorTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Rebuilding ColorTap ${type.toString()}");
     return Consumer<ColorCounters>(
       builder: (BuildContext context,counter,Widget? child) {
+        print("Rebuilding Consumer in ColorTap ${type.toString()}");
         return GestureDetector(
       onTap: () {
         if (type == CardType.red) {
@@ -103,20 +107,22 @@ class StatisticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Rebuilding StatisticsScreen");
     return Scaffold(
       appBar: AppBar(title: Text('Statistics')),
-      body: Consumer<ColorCounters>(
-        builder: (context, value, child) {
-          return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Red Taps:${value.redCount} ', style: TextStyle(fontSize: 24)),
-              Text('Blue Taps:${value.blueCount} ', style: TextStyle(fontSize: 24)),
-            ],
-          ),
-        );
-        } 
+      body: Center(
+        child: Consumer<ColorCounters>(
+          builder: (context, value, child) {
+            print("Rebuilding Consumer in StatisticsScreen");
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Red Taps: ${value.redCount}', style: TextStyle(fontSize: 24)),
+                Text('Blue Taps: ${value.blueCount}', style: TextStyle(fontSize: 24)),
+              ],
+            );
+          }
+        ),
       ),
     );
   }
